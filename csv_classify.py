@@ -1,5 +1,6 @@
 import re
 import nltk
+from nltk.classify.scikitlearn import SklearnClassifier
 from random import shuffle
 import pickle
 
@@ -37,7 +38,7 @@ class ClassifierCSV:
             frequency_dist[word] += 1
         self.feature_words = list(frequency_dist)[:self.featureset_size]
 
-    def train_classifier(self):
+    def train_naive_bayes_classifier(self):
         self._read_csv()
         self._generate_word_features()
         shuffle(self.documents)
@@ -45,10 +46,24 @@ class ClassifierCSV:
         cutoff = int(len(feature_sets) * self.test_ratio)
         train_set, test_set = feature_sets[cutoff:], feature_sets[:cutoff]
         self.classifier = nltk.NaiveBayesClassifier.train(train_set)
-        print('Achieved {0:.2f}% accuracy against training set'.format(nltk.classify.accuracy(self.classifier, train_set)))
-        print('Achieved {0:.2f}% accuracy against test set'.format(nltk.classify.accuracy(self.classifier, test_set)))
+        print('Achieved {0:.2f}% accuracy against training set'.format(nltk.classify.accuracy(self.classifier, train_set)*100))
+        print('Achieved {0:.2f}% accuracy against test set'.format(nltk.classify.accuracy(self.classifier, test_set)*100))
+
+    def train_sklearn_classifier(self, sk_learn_classifier):
+        self._read_csv()
+        self._generate_word_features()
+        shuffle(self.documents)
+        feature_sets = [(self.__document_features(d), c) for (d, c) in self.documents]
+        cutoff = int(len(feature_sets) * self.test_ratio)
+        train_set, test_set = feature_sets[cutoff:], feature_sets[:cutoff]
+        self.classifier = SklearnClassifier(sk_learn_classifier()).train(train_set)
+        print('Achieved {0:.2f}% accuracy against training set'.format(nltk.classify.accuracy(self.classifier, train_set)*100))
+        print('Achieved {0:.2f}% accuracy against test set'.format(nltk.classify.accuracy(self.classifier, test_set)*100))
 
     def classify_new_sentence(self, sentence):
+        if not self.feature_words:
+            self._read_csv()
+            self._generate_word_features()
         test_features = {}
         for word in self.feature_words:
             test_features['contains({})'.format(word.lower())] = (word.lower() in nltk.word_tokenize(sentence))
@@ -66,6 +81,6 @@ class ClassifierCSV:
 
 
 if __name__ == '__main__':
-    c = ClassifierCSV('tweets-with-sentiment.csv', featureset_size=10000)
-    c.train_classifier()
+    c = ClassifierCSV('example-dataset.csv', featureset_size=2000)
+    c.train_naive_bayes_classifier()
     print(c.classify_new_sentence('What an amazing movie'))
