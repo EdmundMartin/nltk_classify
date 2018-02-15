@@ -24,13 +24,11 @@ The sklearn classifiers support the same interface but require us to pass in the
 
 ## Comparing Classifiers
 ```
-Using the Naives Bayes Classifier
-Achieved 84.09% accuracy against training set  
-Achieved 72.89% accuracy against test set
-Using the BernouliNB Classifier
-Achieved 83.93% accuracy against training set 
-Achieved 79.78% accuracy against test set
-Using the MultinomiaNB Classifier
-Achieved 84.58% accuracy against training set
-Achieved 74.67% accuracy against test set
+
+| Algorithm       | Train       | Test  |   
+| ------------- |:-------------:| -----:|
+| Naive Bayes Classifier (NLTK)    | 84.09% | 72.89% |
+| BernouliNB (Sklearn)      | 83.93%  |  79.78% |
+| MultinomiaNB (Sklearn)| 84.58%|  74.67% |
+| LogisticRegression (Sklearn) | 89.05% | 75.33% |
 ```
