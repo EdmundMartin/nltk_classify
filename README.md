@@ -27,7 +27,9 @@ The sklearn classifiers support the same interface but require us to pass in the
 | Algorithm       | Train       | Test  |   
 | ------------- |:-------------:| -----:|
 | Naive Bayes Classifier (NLTK)    | 84.09% | 72.89% |
-| BernouliNB (Sklearn)      | 83.93%  |  79.78% |
+| **BernouliNB (Sklearn)**      | **83.93%**  |  **79.78%** |
 | MultinomiaNB (Sklearn)| 84.58%|  74.67% |
 | LogisticRegression (Sklearn) | 89.05% | 75.33% |
 | SGDClassifier (Sklearn) | 81.23% | 69.32 % |
+
+The above table shows how well various Sklearn algorithm's worked on the example dataset with a feature set of 5,000.
