@@ -22,6 +22,18 @@ print(c.classify_new_sentence('What an amazing movie'))
 ```
 The sklearn classifiers support the same interface but require us to pass in the classifier in question to the train_sklearn_classifier. 
 
+## Saving and Loading Classifiers
+```python3
+c = ClassifierCSV('example-dataset.csv', featureset_size=1000)
+c.train_naive_bayes_classifier()
+print(c.classify_new_sentence('What an amazing movie'))
+c.save_model('example-saved-model')
+
+d = ClassifierCSV('example-dataset.csv', featureset_size=1000)
+d.load_model('example-saved-model', 'vocab-example-saved-model')
+print(d.classify_new_sentence('That was a terrible movie'))
+```
+
 ## Comparing Classifiers
 
 | Algorithm       | Train       | Test  |   
