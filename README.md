@@ -23,7 +23,6 @@ print(c.classify_new_sentence('What an amazing movie'))
 The sklearn classifiers support the same interface but require us to pass in the classifier in question to the train_sklearn_classifier. 
 
 ## Comparing Classifiers
-```
 
 | Algorithm       | Train       | Test  |   
 | ------------- |:-------------:| -----:|
@@ -31,4 +30,4 @@ The sklearn classifiers support the same interface but require us to pass in the
 | BernouliNB (Sklearn)      | 83.93%  |  79.78% |
 | MultinomiaNB (Sklearn)| 84.58%|  74.67% |
 | LogisticRegression (Sklearn) | 89.05% | 75.33% |
-```
+
