@@ -30,4 +30,4 @@ The sklearn classifiers support the same interface but require us to pass in the
 | BernouliNB (Sklearn)      | 83.93%  |  79.78% |
 | MultinomiaNB (Sklearn)| 84.58%|  74.67% |
 | LogisticRegression (Sklearn) | 89.05% | 75.33% |
-
+| SGDClassifier (Sklearn) | 81.23% | 69.32 % |
