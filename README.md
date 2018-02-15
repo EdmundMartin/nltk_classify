@@ -23,3 +23,11 @@ print(c.classify_new_sentence('What an amazing movie'))
 The sklearn classifiers support the same interface but require us to pass in the classifier in question to the train_sklearn_classifier. 
 
 ## Comparing Classifiers
+```
+Using the Naives Bayes Classifier
+Achieved 84.09% accuracy against training set  # Feature Set Size - 5000
+Achieved 72.89% accuracy against test set
+Using the BernouliNB Classifier
+Achieved 83.93% accuracy against training set # Feature Set Size - 5000
+Achieved 79.78% accuracy against test set
+```
