@@ -39,8 +39,9 @@ class ClassifierCSV:
         self.feature_words = list(frequency_dist)[:self.featureset_size]
 
     def train_naive_bayes_classifier(self):
-        self._read_csv()
-        self._generate_word_features()
+        if not self.feature_words:
+            self._read_csv()
+            self._generate_word_features()
         shuffle(self.documents)
         feature_sets = [(self.__document_features(d), c) for (d, c) in self.documents]
         cutoff = int(len(feature_sets) * self.test_ratio)
@@ -50,8 +51,9 @@ class ClassifierCSV:
         print('Achieved {0:.2f}% accuracy against test set'.format(nltk.classify.accuracy(self.classifier, test_set)*100))
 
     def train_sklearn_classifier(self, sk_learn_classifier):
-        self._read_csv()
-        self._generate_word_features()
+        if not self.feature_words:
+            self._read_csv()
+            self._generate_word_features()
         shuffle(self.documents)
         feature_sets = [(self.__document_features(d), c) for (d, c) in self.documents]
         cutoff = int(len(feature_sets) * self.test_ratio)
@@ -73,14 +75,25 @@ class ClassifierCSV:
         save_classifier = open(filename, "wb")
         pickle.dump(self.classifier, save_classifier)
         save_classifier.close()
+        save_vocab = open('vocab-{}'.format(filename), "wb")
+        pickle.dump(self.feature_words, save_vocab)
+        save_vocab.close()
 
-    def load_model(self, filename):
-        classifier_f = open(filename, "rb")
+    def load_model(self, model_filename, vocab_filename):
+        classifier_f = open(model_filename, "rb")
         self.classifier = pickle.load(classifier_f)
         classifier_f.close()
+        vocab_f = open(vocab_filename, "rb")
+        self.feature_words = pickle.load(vocab_f)
+        vocab_f.close()
 
 
 if __name__ == '__main__':
-    c = ClassifierCSV('example-dataset.csv', featureset_size=2000)
+    c = ClassifierCSV('example-dataset.csv', featureset_size=1000)
     c.train_naive_bayes_classifier()
     print(c.classify_new_sentence('What an amazing movie'))
+    c.save_model('example-saved-model')
+
+    d = ClassifierCSV('example-dataset.csv', featureset_size=1000)
+    d.load_model('example-saved-model', 'vocab-example-saved-model')
+    print(d.classify_new_sentence('That was a terrible movie'))
